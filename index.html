@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas com Cores Selecionáveis</title>
+    <style>
+        canvas {
+            border: 2px solid black;
+        }
+        body {
+            text-align: center;
+        }
+        .color-selector {
+            display: inline-block;
+            margin: 10px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="900" height="700"></canvas>
+    <div>
+        <div class="color-selector" style="background-color: red;" onclick="setColor('red')"></div>
+        <div class="color-selector" style="background-color: darkblue;" onclick="setColor('darkblue')"></div>
+        <div class="color-selector" style="background-color: gold;" onclick="setColor('gold')"></div>
+    </div>
+    
+    <script>
+        let canvas = document.getElementById("canvas");
+        let contexto = canvas.getContext("2d");
+        let desenhando = false;
+        let corAtual = 'black'; // Cor padrão é preto
+
+        canvas.addEventListener("mousedown", function(event){
+            desenhando = true;
+            contexto.beginPath();
+            contexto.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+        });
+
+        canvas.addEventListener("mousemove", function(event){
+            if(desenhando){
+                contexto.strokeStyle = corAtual;
+                contexto.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+                contexto.stroke();
+            }
+        });
+
+        canvas.addEventListener("mouseup", function(event){
+            desenhando = false;
+        });
+
+        function setColor(color) {
+            corAtual = color;
+        }
+    </script>
+</body>
+</html>
